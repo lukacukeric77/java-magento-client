@@ -1,31 +1,30 @@
 package com.github.chen0040.magento.utils;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.*;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 
-/**
- * Created by xschen on 3/10/16.
- */
+@Slf4j
 public class HttpClient implements Serializable {
    private static final String DATA_ENCODING = "UTF-8";
-   private static final Logger logger = LoggerFactory.getLogger(HttpClient.class);
    private static final long serialVersionUID = 4661645115933875389L;
 
 
@@ -46,7 +45,7 @@ public class HttpClient implements Serializable {
 
    public static void formPost(String uri, Map<String, String> parameters) throws IOException {
 
-      logger.info("form post to {}", uri);
+      log.info("form post to {}", uri);
 
       HttpPost httpPost = new HttpPost(uri);
       CloseableHttpClient client = buildClient();
@@ -59,7 +58,7 @@ public class HttpClient implements Serializable {
       CloseableHttpResponse response = client.execute(httpPost);
       int statusCode = response.getStatusLine().getStatusCode();
 
-      logger.info("status code: {}", statusCode);
+      log.info("status code: {}", statusCode);
 
 
 
@@ -192,7 +191,7 @@ public class HttpClient implements Serializable {
          if (response.getEntity() != null) {
             json = EntityUtils.toString(response.getEntity(), DATA_ENCODING);
          }
-         //logger.info("spark[tryReadAlgorithmModuleStatus]: "+json);
+         //log.info("spark[tryReadAlgorithmModuleStatus]: "+json);
       }
       catch (Exception ex2) {
          json = ex2.getMessage();
@@ -214,7 +213,7 @@ public class HttpClient implements Serializable {
          if (response.getEntity() != null) {
             json = EntityUtils.toString(response.getEntity(), DATA_ENCODING);
          }
-         //logger.info("spark[tryReadAlgorithmModuleStatus]: "+json);
+         //log.info("spark[tryReadAlgorithmModuleStatus]: "+json);
       }
       catch (Exception ex2) {
          json = ex2.getMessage();

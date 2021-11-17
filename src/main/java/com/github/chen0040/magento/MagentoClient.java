@@ -3,18 +3,23 @@ package com.github.chen0040.magento;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.github.chen0040.magento.models.*;
-import com.github.chen0040.magento.services.*;
-import com.github.chen0040.magento.utils.HttpClient;
+import com.github.chen0040.magento.models.Account;
+import com.github.chen0040.magento.services.BasicHttpComponent;
+import com.github.chen0040.magento.services.HttpComponent;
+import com.github.chen0040.magento.services.MagentoCategoryManager;
+import com.github.chen0040.magento.services.MagentoGuestCartManager;
+import com.github.chen0040.magento.services.MagentoHttpComponent;
+import com.github.chen0040.magento.services.MagentoInventoryStockManager;
+import com.github.chen0040.magento.services.MagentoMyCartManager;
+import com.github.chen0040.magento.services.MagentoProductManager;
+import com.github.chen0040.magento.services.MagentoProductMediaManager;
 import com.github.chen0040.magento.utils.StringUtils;
-import lombok.Getter;
-import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -22,15 +27,12 @@ import java.util.Map;
  */
 @Getter
 @Setter
+@Slf4j
 public class MagentoClient extends MagentoHttpComponent implements Serializable {
    private static final long serialVersionUID = 3001998767951271632L;
    private static final String relativePath4LoginAsClient = "rest/V1/integration/customer/token";
    private static final String relativePath4LoginAsAdmin = "rest/V1/integration/admin/token";
 
-
-
-
-   private static final Logger logger = LoggerFactory.getLogger(MagentoClient.class);
 
    private String token = null;
 
@@ -73,7 +75,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
 
    public Account getMyAccount() {
       if(admin){
-         logger.warn("my account access api is not supported for admin rest call");
+         log.warn("my account access api is not supported for admin rest call");
          return null;
       }
 
@@ -90,7 +92,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
 
    public Map<String, Object> getAccountById(long id) {
       if(!admin){
-         logger.warn("other account access api is not supported for client rest call");
+         log.warn("other account access api is not supported for client rest call");
          return new HashMap<>();
       }
 
@@ -106,7 +108,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
       data.put("username", username);
       data.put("password", password);
       this.token = StringUtils.stripQuotation(httpComponent.jsonPost(uri, data));
-      logger.info("loginAsClient returns: {}", token);
+      log.info("loginAsClient returns: {}", token);
 
       if(token.contains("You did not sign in correctly or your account is temporarily disabled") || token.contains("Invalid login or password")) {
          this.token = "";
@@ -129,7 +131,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
       data.put("username", username);
       data.put("password", password);
       token = StringUtils.stripQuotation(httpComponent.jsonPost(uri, data));
-      logger.info("loginAsClient returns: {}", token);
+      log.info("loginAsClient returns: {}", token);
       if(token.contains("You did not sign in correctly or your account is temporarily disabled") || token.contains("Invalid login or password")) {
          this.token = "";
          return token;

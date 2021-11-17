@@ -4,26 +4,21 @@ package com.github.chen0040.magento.services;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.chen0040.magento.MagentoClient;
-import com.github.chen0040.magento.models.*;
-import com.github.chen0040.magento.utils.StringUtils;
-import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import com.github.chen0040.magento.models.MagentoAttributeType;
+import com.github.chen0040.magento.models.MagentoType;
+import com.github.chen0040.magento.models.Product;
+import com.github.chen0040.magento.models.ProductAttributePage;
+import com.github.chen0040.magento.models.ProductPage;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
-
-/**
- * Created by xschen on 12/6/2017.
- */
+@Slf4j
 public class MagentoProductManager extends MagentoHttpComponent {
 
-   private static final Logger logger = LoggerFactory.getLogger(MagentoProductManager.class);
    private MagentoClient client;
    private static final String relativePath4Products = "rest/V1/products";
 
@@ -64,7 +59,7 @@ public class MagentoProductManager extends MagentoHttpComponent {
          return null;
       }
 
-      System.out.println("output: " + json);
+      log.info("Output: {}", json);
 
       return JSON.parseObject(json, Product.class);
    }
@@ -79,7 +74,7 @@ public class MagentoProductManager extends MagentoHttpComponent {
       String json = getSecured(uri);
 
       if(!validate(json)) {
-         return null;
+         return Collections.emptyList();
       }
 
       return JSON.parseArray(json, MagentoAttributeType.class);
@@ -118,13 +113,13 @@ public class MagentoProductManager extends MagentoHttpComponent {
       detail.put("attribute_set_id", product.getAttribute_set_id());
       detail.put("weight", product.getWeight());
       detail.put("visibility", product.getVisibility());
-      detail.put("status", product.getStatus());
+//      detail.put("status", product.getStatus());
 
       Map<String, Object> req = new HashMap<>();
       req.put("product", detail);
 
       String body = JSON.toJSONString(req, SerializerFeature.PrettyFormat);
-      logger.info("posting:\r\n{}", body);
+      log.info("posting:\r\n{}", body);
       String json = putSecure(url, body);
 
       if(!validate(json)){
@@ -133,8 +128,6 @@ public class MagentoProductManager extends MagentoHttpComponent {
 
       return JSON.parseObject(json, Product.class);
    }
-
-
 
 
    public String page(String name, String value, String condition_type) {

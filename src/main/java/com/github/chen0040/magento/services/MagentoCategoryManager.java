@@ -13,9 +13,6 @@ import com.github.chen0040.magento.models.Category;
 import com.github.chen0040.magento.models.CategoryProduct;
 
 
-/**
- * Created by xschen on 12/6/2017.
- */
 public class MagentoCategoryManager extends MagentoHttpComponent {
    private MagentoClient client;
    private static final String relativePath4Categories = "rest/V1/categories";

@@ -5,26 +5,25 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.chen0040.magento.MagentoClient;
 import com.github.chen0040.magento.enums.ImageType;
-import com.github.chen0040.magento.models.Product;
 import com.github.chen0040.magento.models.ProductMedia;
-import com.github.chen0040.magento.models.ProductPage;
 import com.github.chen0040.magento.utils.StringUtils;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.URLEncoder;
-import java.util.*;
-import java.util.function.Function;
-
-
-/**
- * Created by xschen on 15/6/2017.
- */
+@Slf4j
 public class MagentoProductMediaManager extends MagentoHttpComponent {
-
-   private static final Logger logger = LoggerFactory.getLogger(MagentoProductMediaManager.class);
 
    private MagentoClient client;
 
@@ -52,7 +51,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
          return uploadProductImage(sku, position, filename, base64EncodedData, imageType, imageFileName);
       }
       catch (UnsupportedEncodingException e) {
-         logger.error("Failed to covert image bytes to base64 string", e);
+         log.error("Failed to covert image bytes to base64 string", e);
       }
       return -1L;
    }
@@ -65,7 +64,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
          return updateProductImage(sku, entryId, position, filename, base64EncodedData, imageType, imageFileName);
       }
       catch (UnsupportedEncodingException e) {
-         logger.error("Failed to covert image bytes to base64 string", e);
+         log.error("Failed to covert image bytes to base64 string", e);
       }
       return false;
    }
@@ -142,7 +141,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
       String json = getSecured(uri);
 
       if (!validate(json)) {
-         return null;
+         return Collections.emptyList();
       }
 
       return JSON.parseArray(json, ProductMedia.class);
@@ -216,7 +215,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
 
    public long uploadImage(String sku, String imageFilePath, boolean forceOverwrite) {
 
-      ImageType imageType = imageFilePath.toLowerCase().endsWith(".png") ? ImageType.Png : ImageType.Jpeg;
+      ImageType imageType = imageFilePath.toLowerCase().endsWith(".png") ? ImageType.PNG : ImageType.JPEG;
 
       List<ProductMedia> mediaList = getProductMediaList(sku);
 
@@ -237,7 +236,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
       int position = 1;
       String type = "image/png";
 
-      if (imageType == ImageType.Jpeg) {
+      if (imageType == ImageType.JPEG) {
          type = "image/jpeg";
       }
 
@@ -250,8 +249,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
          imageName = imageFilePath.substring(imageFilePath.lastIndexOf("/") + 1, imageFilePath.length());
       }
 
-      try {
-         InputStream inputStream = new FileInputStream(imageFilePath);
+      try (InputStream inputStream = new FileInputStream(imageFilePath)) {
 
          ByteArrayOutputStream baos = new ByteArrayOutputStream();
          int length;
@@ -263,12 +261,12 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
 
          long uploadedId = client.media().uploadProductImage(sku, position, filename, bytes, type, imageName);
 
-         logger.info("uploaded {} for product {}: {}", imageFilePath, sku, uploadedId);
+         log.info("uploaded {} for product {}: {}", imageFilePath, sku, uploadedId);
 
          return uploadedId;
       }
       catch (IOException exception) {
-         logger.error("Failed to upload as image " + imageFilePath + " is not available.", exception);
+         log.error("Failed to upload as image " + imageFilePath + " is not available.", exception);
       }
 
       return -1;
@@ -284,7 +282,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
          }
       }
       else {
-         if (mediaList.size() > 0) {
+         if (!mediaList.isEmpty()) {
             return -1;
          }
       }
@@ -295,7 +293,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
       int position = 1;
       String type = "image/png";
 
-      if (imageType == ImageType.Jpeg) {
+      if (imageType == ImageType.JPEG) {
          type = "image/jpeg";
       }
 
@@ -307,21 +305,21 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
 
       long uploadedId = uploadProductImage(sku, position, filename, bytes, type, imageName);
 
-      logger.info("uploaded {} for product {}: {}", filename, sku, uploadedId);
+      log.info("uploaded {} for product {}: {}", filename, sku, uploadedId);
 
       return uploadedId;
    }
 
    public boolean updateImage(String sku, long entryId, String imageFilePath) {
 
-      ImageType imageType = imageFilePath.toLowerCase().endsWith(".png") ? ImageType.Png : ImageType.Jpeg;
+      ImageType imageType = imageFilePath.toLowerCase().endsWith(".png") ? ImageType.PNG : ImageType.JPEG;
 
 
       String filename = "/m/b/mb-" + StringUtils.cleanup(sku) + ".png";
       int position = 1;
       String type = "image/png";
 
-      if (imageType == ImageType.Jpeg) {
+      if (imageType == ImageType.JPEG) {
          type = "image/jpeg";
       }
 
@@ -334,8 +332,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
          imageName = imageFilePath.substring(imageFilePath.lastIndexOf("/") + 1, imageFilePath.length());
       }
 
-      try {
-         InputStream inputStream = new FileInputStream(imageFilePath);
+      try (InputStream inputStream = new FileInputStream(imageFilePath)) {
 
          ByteArrayOutputStream baos = new ByteArrayOutputStream();
          int length;
@@ -347,12 +344,12 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
 
          boolean updated = updateProductImage(sku, entryId, position, filename, bytes, type, imageName);
 
-         logger.info("updating {} for product {}: {}", imageFilePath, sku, updated);
+         log.info("updating {} for product {}: {}", imageFilePath, sku, updated);
 
          return updated;
       }
       catch (IOException exception) {
-         logger.error("Failed to upload as image " + imageFilePath + " is not available.", exception);
+         log.error("Failed to upload as image " + imageFilePath + " is not available.", exception);
       }
 
       return false;
@@ -364,7 +361,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
       int position = 1;
       String type = "image/png";
 
-      if (imageType == ImageType.Jpeg) {
+      if (imageType == ImageType.JPEG) {
          type = "image/jpeg";
       }
 
@@ -376,7 +373,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
 
       boolean updated = updateProductImage(sku, entryId, position, filename, bytes, type, imageName);
 
-      logger.info("uploaded {} for product {}: {}", filename, sku, updated);
+      log.info("uploaded {} for product {}: {}", filename, sku, updated);
 
       return updated;
    }

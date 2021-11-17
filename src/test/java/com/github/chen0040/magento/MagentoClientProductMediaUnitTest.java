@@ -3,32 +3,21 @@ package com.github.chen0040.magento;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.github.chen0040.magento.models.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import lombok.extern.slf4j.Slf4j;
+import org.testng.annotations.Test;
 
-
-/**
- * Created by xschen on 15/6/2017.
- */
+@Slf4j
 public class MagentoClientProductMediaUnitTest {
-
-   private static final Logger logger = LoggerFactory.getLogger(MagentoClientProductMediaUnitTest.class);
-
-
-
-
+   
    @Test
    public void test_get_product_media_list() {
       String productSku = "B202-SKU";
       MagentoClient client = new MagentoClient(Mediator.url);
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
-      logger.info("media list: \r\n{}", JSON.toJSONString(client.media().getProductMediaList(productSku), SerializerFeature.PrettyFormat));
+      log.info("media list: \r\n{}", JSON.toJSONString(client.media().getProductMediaList(productSku), SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -36,8 +25,8 @@ public class MagentoClientProductMediaUnitTest {
       String productSku = "B202-SKU";
       MagentoClient client = new MagentoClient(Mediator.url);
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
-      logger.info("media absolute urls: \r\n{}", JSON.toJSONString(client.media().getProductMediaAbsoluteUrls(productSku), SerializerFeature.PrettyFormat));
-      logger.info("media relative urls: \r\n{}", JSON.toJSONString(client.media().getProductMediaRelativeUrls(productSku), SerializerFeature.PrettyFormat));
+      log.info("media absolute urls: \r\n{}", JSON.toJSONString(client.media().getProductMediaAbsoluteUrls(productSku), SerializerFeature.PrettyFormat));
+      log.info("media relative urls: \r\n{}", JSON.toJSONString(client.media().getProductMediaRelativeUrls(productSku), SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -46,8 +35,8 @@ public class MagentoClientProductMediaUnitTest {
       MagentoClient client = new MagentoClient(Mediator.url);
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
       long entryId = 1L;
-      logger.info("media absoluate url: \r\n{}", JSON.toJSONString(client.media().getProductMediaAbsoluteUrl(productSku, entryId), SerializerFeature.PrettyFormat));
-      logger.info("media relative url: \r\n{}", JSON.toJSONString(client.media().getProductMediaRelativeUrl(productSku, entryId), SerializerFeature.PrettyFormat));
+      log.info("media absoluate url: \r\n{}", JSON.toJSONString(client.media().getProductMediaAbsoluteUrl(productSku, entryId), SerializerFeature.PrettyFormat));
+      log.info("media relative url: \r\n{}", JSON.toJSONString(client.media().getProductMediaRelativeUrl(productSku, entryId), SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -56,7 +45,7 @@ public class MagentoClientProductMediaUnitTest {
       MagentoClient client = new MagentoClient(Mediator.url);
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
       long entryId = 1L;
-      logger.info("media: \r\n{}", JSON.toJSONString(client.media().getProductMedia(productSku, entryId), SerializerFeature.PrettyFormat));
+      log.info("media: \r\n{}", JSON.toJSONString(client.media().getProductMedia(productSku, entryId), SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -65,7 +54,7 @@ public class MagentoClientProductMediaUnitTest {
       MagentoClient client = new MagentoClient(Mediator.url);
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
       long entryId = 2L;
-      logger.info("media deleted: \r\n{}", JSON.toJSONString(client.media().deleteProductMedia(productSku, entryId), SerializerFeature.PrettyFormat));
+      log.info("media deleted: \r\n{}", JSON.toJSONString(client.media().deleteProductMedia(productSku, entryId), SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -89,7 +78,7 @@ public class MagentoClientProductMediaUnitTest {
          baos.write(bytes, 0, length);
       }
       bytes = baos.toByteArray();
-      logger.info("uploaded image id: {}", client.media().uploadProductImage(productSku, position, filename,  bytes, type, imageFileName));
+      log.info("uploaded image id: {}", client.media().uploadProductImage(productSku, position, filename,  bytes, type, imageFileName));
    }
 
    @Test
@@ -114,7 +103,7 @@ public class MagentoClientProductMediaUnitTest {
       }
       bytes = baos.toByteArray();
       long entryId = 3L;
-      logger.info("image updated: {}", client.media().updateProductImage(productSku, entryId, position, filename,  bytes, type, imageFileName));
+      log.info("image updated: {}", client.media().updateProductImage(productSku, entryId, position, filename,  bytes, type, imageFileName));
    }
 
 }

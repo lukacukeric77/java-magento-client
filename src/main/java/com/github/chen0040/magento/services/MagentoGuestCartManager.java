@@ -8,14 +8,11 @@ import com.github.chen0040.magento.models.Cart;
 import com.github.chen0040.magento.models.CartItem;
 import com.github.chen0040.magento.models.CartTotal;
 import com.github.chen0040.magento.utils.StringUtils;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
-
-/**
- * Created by xschen on 10/7/2017.
- */
+@Slf4j
 public class MagentoGuestCartManager extends MagentoHttpComponent {
    protected String relativePath = "rest/V1/guest-carts";
    protected final MagentoClient client;
@@ -52,10 +49,9 @@ public class MagentoGuestCartManager extends MagentoHttpComponent {
          return null;
       }
 
-      System.out.println(json);
+      log.info("Json: {}", json);
 
-      Cart cart = JSON.parseObject(json, Cart.class);
-      return cart;
+      return JSON.parseObject(json, Cart.class);
    }
 
    public CartTotal getCartTotal(String cartId) {
@@ -65,10 +61,9 @@ public class MagentoGuestCartManager extends MagentoHttpComponent {
          return null;
       }
 
-      System.out.println(json);
+      log.info("Json: {}", json);
 
-      CartTotal cartTotal = JSON.parseObject(json, CartTotal.class);
-      return cartTotal;
+      return JSON.parseObject(json, CartTotal.class);
    }
 
    public CartItem addItemToCart(String cartId, CartItem item) {
@@ -85,11 +80,9 @@ public class MagentoGuestCartManager extends MagentoHttpComponent {
          return null;
       }
 
-      System.out.println(json);
+      log.info("Json: {}", json);
 
-      CartItem saved = JSON.parseObject(json, CartItem.class);
-
-      return saved;
+      return JSON.parseObject(json, CartItem.class);
    }
 
    public CartItem updateItemInCart(String cartId, CartItem item) {
@@ -107,11 +100,9 @@ public class MagentoGuestCartManager extends MagentoHttpComponent {
          return null;
       }
 
-      System.out.println(json);
+      log.info("Json: {}", json);
 
-      CartItem saved = JSON.parseObject(json, CartItem.class);
-
-      return saved;
+      return  JSON.parseObject(json, CartItem.class);
    }
 
    public boolean deleteItemInCart(String cartId, int itemId) {
@@ -121,7 +112,7 @@ public class MagentoGuestCartManager extends MagentoHttpComponent {
          return false;
       }
 
-      System.out.println(json);
+      log.info("Json: {}", json);
 
       return json.equalsIgnoreCase("true");
    }

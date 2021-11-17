@@ -5,19 +5,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.chen0040.magento.models.Category;
 import com.github.chen0040.magento.models.CategoryProduct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
 
-import java.util.List;
 
-
-/**
- * Created by xschen on 12/6/2017.
- */
+@Slf4j
 public class MagentoClientCategoryUnitTest {
-
-   private static final Logger logger = LoggerFactory.getLogger(MagentoClientCategoryUnitTest.class);
 
    @Test
    public void test_get_category_by_id(){
@@ -26,10 +20,10 @@ public class MagentoClientCategoryUnitTest {
       MagentoClient client = new MagentoClient(Mediator.url);
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
       Category category = client.categories().getCategoryByIdClean(id);
-      logger.info("category:\r\n{}", JSON.toJSONString(category, SerializerFeature.PrettyFormat));
+      log.info("category:\r\n{}", JSON.toJSONString(category, SerializerFeature.PrettyFormat));
 
       category = client.categories().getCategoryByIdWithChildren(id);
-      logger.info("category:\r\n{}", JSON.toJSONString(category, SerializerFeature.PrettyFormat));
+      log.info("category:\r\n{}", JSON.toJSONString(category, SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -39,7 +33,7 @@ public class MagentoClientCategoryUnitTest {
       MagentoClient client = new MagentoClient(Mediator.url);
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
       boolean deleted = client.categories().deleteCategory(id);
-      logger.info("category deleted: {}", deleted);
+      log.info("category deleted: {}", deleted);
    }
 
    @Test
@@ -48,7 +42,7 @@ public class MagentoClientCategoryUnitTest {
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
 
       Category page = client.categories().all();
-      logger.info("categories: {}\r\n", JSON.toJSONString(page, SerializerFeature.PrettyFormat));
+      log.info("categories: {}\r\n", JSON.toJSONString(page, SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -58,7 +52,7 @@ public class MagentoClientCategoryUnitTest {
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
 
       List<CategoryProduct> products = client.categories().getProductsInCategory(id);
-      logger.info("products in category 15:\r\n{}", JSON.toJSONString(products, SerializerFeature.PrettyFormat));
+      log.info("products in category 15:\r\n{}", JSON.toJSONString(products, SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -69,7 +63,7 @@ public class MagentoClientCategoryUnitTest {
 
       String productSku = "B202-SKU";
       boolean added = client.categories().addProductToCategory(categoryId, productSku, 1);
-      logger.info("added ? {}", added);
+      log.info("added ? {}", added);
    }
 
    @Test
@@ -80,7 +74,7 @@ public class MagentoClientCategoryUnitTest {
 
       String productSku = "B202-SKU";
       boolean removed = client.categories().removeProductFromCategory(categoryId, productSku);
-      logger.info("removed ? {}", removed);
+      log.info("removed ? {}", removed);
    }
 
 }

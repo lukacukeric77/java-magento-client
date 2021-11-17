@@ -14,9 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-/**
- * Created by xschen on 11/7/2017.
- */
 public class MagentoMyCartManager extends MagentoHttpComponent {
    protected final MagentoClient client;
    private static final String relativePath = "rest/V1/carts";
@@ -58,10 +55,7 @@ public class MagentoMyCartManager extends MagentoHttpComponent {
          return null;
       }
 
-      
-
-      Cart cart = JSON.parseObject(json, Cart.class);
-      return cart;
+      return JSON.parseObject(json, Cart.class);
    }
 
    public CartTotal getCartTotal() {
@@ -71,10 +65,7 @@ public class MagentoMyCartManager extends MagentoHttpComponent {
          return null;
       }
 
-      
-
-      CartTotal cartTotal = JSON.parseObject(json, CartTotal.class);
-      return cartTotal;
+      return JSON.parseObject(json, CartTotal.class);
    }
 
    public CartItem addItemToCart(String quoteId, CartItem item) {
@@ -91,11 +82,7 @@ public class MagentoMyCartManager extends MagentoHttpComponent {
          return null;
       }
 
-      
-
-      CartItem saved = JSON.parseObject(json, CartItem.class);
-
-      return saved;
+      return JSON.parseObject(json, CartItem.class);
    }
 
    public CartItem updateItemInCart(String quoteId, CartItem item) {
@@ -113,11 +100,7 @@ public class MagentoMyCartManager extends MagentoHttpComponent {
          return null;
       }
 
-      
-
-      CartItem saved = JSON.parseObject(json, CartItem.class);
-
-      return saved;
+      return JSON.parseObject(json, CartItem.class);
    }
 
    public boolean deleteItemInCart(int itemId) {
@@ -127,8 +110,6 @@ public class MagentoMyCartManager extends MagentoHttpComponent {
       if(!validate(json)){
          return false;
       }
-
-      
 
       return json.equalsIgnoreCase("true");
    }
@@ -145,13 +126,7 @@ public class MagentoMyCartManager extends MagentoHttpComponent {
       String json = JSON.toJSONString(request, SerializerFeature.BrowserCompatible);
       json = putSecure(baseUri() + "/rest/V1/guest-carts/" + guestCartId, json);
 
-      if(!validate(json)){
-         return false;
-      }
-
-      
-
-      return true;
+      return validate(json);
    }
 
 }

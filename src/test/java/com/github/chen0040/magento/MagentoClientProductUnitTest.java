@@ -1,42 +1,38 @@
 package com.github.chen0040.magento;
 
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.github.chen0040.magento.models.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.chen0040.magento.models.MagentoAttributeType;
+import com.github.chen0040.magento.models.Product;
+import com.github.chen0040.magento.models.ProductAttributePage;
+import com.github.chen0040.magento.models.ProductPage;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
-
-/**
- * Created by xschen on 12/6/2017.
- */
+@Slf4j
 public class MagentoClientProductUnitTest {
 
-   private static final Logger logger = LoggerFactory.getLogger(MagentoClientProductUnitTest.class);
    @Test
    public void test_login_client(){
       MagentoClient client = new MagentoClient(Mediator.url);
       String token = client.loginAsClient(Mediator.customerUsername, Mediator.customerPassword);
-      logger.info("my account:\r\n{}", JSON.toJSONString(client.getMyAccount(), SerializerFeature.PrettyFormat));
-      logger.info("product types:\r\n{}", JSON.toJSONString(client.products().listProductTypes(), SerializerFeature.PrettyFormat));
+      log.info("my account:\r\n{}", JSON.toJSONString(client.getMyAccount(), SerializerFeature.PrettyFormat));
+      log.info("product types:\r\n{}", JSON.toJSONString(client.products().listProductTypes(), SerializerFeature.PrettyFormat));
    }
 
    @Test
    public void test_list_product(){
       MagentoClient client = new MagentoClient(Mediator.url);
       String token = client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
-      logger.info("account with id = 1: {}", client.getAccountById(1));
-      logger.info("product types: \r\n{}", JSON.toJSONString(client.products().listProductTypes(), SerializerFeature.PrettyFormat));
+      log.info("account with id = 1: {}", client.getAccountById(1));
+      log.info("product types: \r\n{}", JSON.toJSONString(client.products().listProductTypes(), SerializerFeature.PrettyFormat));
 
       ProductPage page  = client.products().page(0, 10);
-      logger.info("product page: \r\n{}", JSON.toJSONString(page, SerializerFeature.PrettyFormat));
+      log.info("product page: \r\n{}", JSON.toJSONString(page, SerializerFeature.PrettyFormat));
       Product p1 = page.getItems().get(0);
       Product p2 = client.products().getProductBySku(p1.getSku());
-      logger.info("product:\r\n{}", JSON.toJSONString(p2, SerializerFeature.PrettyFormat));
+      log.info("product:\r\n{}", JSON.toJSONString(p2, SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -45,9 +41,9 @@ public class MagentoClientProductUnitTest {
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
 
       Product p1 = client.products().getProductBySku("B201-SKU");
-      logger.info("product:\r\n{}", JSON.toJSONString(p1, SerializerFeature.PrettyFormat));
+      log.info("product:\r\n{}", JSON.toJSONString(p1, SerializerFeature.PrettyFormat));
       Product p2 = client.products().getProductBySku("B202-SKU");
-      logger.info("product:\r\n{}", JSON.toJSONString(p2, SerializerFeature.PrettyFormat));
+      log.info("product:\r\n{}", JSON.toJSONString(p2, SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -56,9 +52,9 @@ public class MagentoClientProductUnitTest {
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
 
       String sku = "B203-SKU";
-      logger.info("product exists ? {}", client.products().hasProduct(sku));
-      logger.info("client.deleteProduct(sku): {}", client.products().deleteProduct(sku));
-      logger.info("product exists ? {}", client.products().hasProduct(sku));
+      log.info("product exists ? {}", client.products().hasProduct(sku));
+      log.info("client.deleteProduct(sku): {}", client.products().deleteProduct(sku));
+      log.info("product exists ? {}", client.products().hasProduct(sku));
    }
 
    @Test
@@ -67,7 +63,7 @@ public class MagentoClientProductUnitTest {
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
 
       List<MagentoAttributeType> attributeTypes = client.products().getProductAttributeTypes();
-      logger.info("product attribute types:\r\n{}", JSON.toJSONString(attributeTypes, SerializerFeature.PrettyFormat));
+      log.info("product attribute types:\r\n{}", JSON.toJSONString(attributeTypes, SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -76,7 +72,7 @@ public class MagentoClientProductUnitTest {
       client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
 
       ProductAttributePage page = client.products().getProductAttributes(0,10);
-      logger.info("product attribute types:\r\n{}", JSON.toJSONString(page, SerializerFeature.PrettyFormat));
+      log.info("product attribute types:\r\n{}", JSON.toJSONString(page, SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -86,7 +82,7 @@ public class MagentoClientProductUnitTest {
 
       String sku = "B203-SKU";
       if(client.products().hasProduct(sku)) {
-         logger.info("Deleting {}", sku);
+         log.info("Deleting {}", sku);
          client.products().deleteProduct(sku);
          try {
             Thread.sleep(3000L);
@@ -107,7 +103,7 @@ public class MagentoClientProductUnitTest {
       product.setVisibility(Product.VISIBILITY_BOTH);
       product.setStatus(Product.STATUS_ENABLED);
 
-      logger.info("add product result: {}", JSON.toJSONString(client.products().saveProduct(product), SerializerFeature.PrettyFormat));
+      log.info("add product result: {}", JSON.toJSONString(client.products().saveProduct(product), SerializerFeature.PrettyFormat));
    }
 
 

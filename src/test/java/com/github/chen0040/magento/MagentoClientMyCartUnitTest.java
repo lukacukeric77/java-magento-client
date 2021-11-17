@@ -6,16 +6,11 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.chen0040.magento.models.Cart;
 import com.github.chen0040.magento.models.CartItem;
 import com.github.chen0040.magento.models.CartTotal;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
 
-
-/**
- * Created by xschen on 10/7/2017.
- */
+@Slf4j
 public class MagentoClientMyCartUnitTest {
-   private static final Logger logger = LoggerFactory.getLogger(MagentoClientMyCartUnitTest.class);
 
    @Test
    public void test_newCart(){
@@ -25,9 +20,9 @@ public class MagentoClientMyCartUnitTest {
       Cart cart = client.myCart().getCart();
       CartTotal cartTotal = client.myCart().getCartTotal();
 
-      logger.info("token: {}", token);
-      logger.info("cart: \r\n{}", JSON.toJSONString(cart, SerializerFeature.PrettyFormat));
-      logger.info("cartTotal: \r\n{}", JSON.toJSONString(cartTotal, SerializerFeature.PrettyFormat));
+      log.info("token: {}", token);
+      log.info("cart: \r\n{}", JSON.toJSONString(cart, SerializerFeature.PrettyFormat));
+      log.info("cartTotal: \r\n{}", JSON.toJSONString(cartTotal, SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -47,9 +42,9 @@ public class MagentoClientMyCartUnitTest {
       Cart cart = client.myCart().getCart();
       CartTotal cartTotal = client.myCart().getCartTotal();
 
-      logger.info("cartItem: \r\n{}", JSON.toJSONString(item, SerializerFeature.PrettyFormat));
-      logger.info("cart: \r\n{}", JSON.toJSONString(cart, SerializerFeature.PrettyFormat));
-      logger.info("cartTotal: \r\n{}", JSON.toJSONString(cartTotal, SerializerFeature.PrettyFormat));
+      log.info("cartItem: \r\n{}", JSON.toJSONString(item, SerializerFeature.PrettyFormat));
+      log.info("cart: \r\n{}", JSON.toJSONString(cart, SerializerFeature.PrettyFormat));
+      log.info("cartTotal: \r\n{}", JSON.toJSONString(cartTotal, SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -69,9 +64,9 @@ public class MagentoClientMyCartUnitTest {
       Cart cart = client.myCart().getCart();
       CartTotal cartTotal = client.myCart().getCartTotal();
 
-      logger.info("cartItem: \r\n{}", JSON.toJSONString(item, SerializerFeature.PrettyFormat));
-      logger.info("cart: \r\n{}", JSON.toJSONString(cart, SerializerFeature.PrettyFormat));
-      logger.info("cartTotal: \r\n{}", JSON.toJSONString(cartTotal, SerializerFeature.PrettyFormat));
+      log.info("cartItem: \r\n{}", JSON.toJSONString(item, SerializerFeature.PrettyFormat));
+      log.info("cart: \r\n{}", JSON.toJSONString(cart, SerializerFeature.PrettyFormat));
+      log.info("cartTotal: \r\n{}", JSON.toJSONString(cartTotal, SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -91,9 +86,9 @@ public class MagentoClientMyCartUnitTest {
       Cart cart = client.myCart().getCart();
       CartTotal cartTotal = client.myCart().getCartTotal();
 
-      logger.info("result: {}", result);
-      logger.info("cart: \r\n{}", JSON.toJSONString(cart, SerializerFeature.PrettyFormat));
-      logger.info("cartTotal: \r\n{}", JSON.toJSONString(cartTotal, SerializerFeature.PrettyFormat));
+      log.info("result: {}", result);
+      log.info("cart: \r\n{}", JSON.toJSONString(cart, SerializerFeature.PrettyFormat));
+      log.info("cartTotal: \r\n{}", JSON.toJSONString(cartTotal, SerializerFeature.PrettyFormat));
    }
 
    @Test
@@ -114,8 +109,8 @@ public class MagentoClientMyCartUnitTest {
       Cart cart = client.myCart().getCart();
       CartTotal cartTotal = client.myCart().getCartTotal();
 
-      logger.info("result: {}", result);
-      logger.info("cart: \r\n{}", JSON.toJSONString(cart, SerializerFeature.PrettyFormat));
-      logger.info("cartTotal: \r\n{}", JSON.toJSONString(cartTotal, SerializerFeature.PrettyFormat));
+      log.info("result: {}", result);
+      log.info("cart: \r\n{}", JSON.toJSONString(cart, SerializerFeature.PrettyFormat));
+      log.info("cartTotal: \r\n{}", JSON.toJSONString(cartTotal, SerializerFeature.PrettyFormat));
    }
 }
