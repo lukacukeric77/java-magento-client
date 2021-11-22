@@ -19,9 +19,17 @@ public abstract class MagentoHttpComponent {
    public abstract String token();
    public abstract String baseUri();
 
+   private static final String AUTHORISATION = "Authorization";
+   private static final String BEARER = "Bearer ";
+   private static final String CONTENT_TYPE = "Content-Type";
+   private static final String APPLICATION_JSON = "application/json";
+
    protected HttpComponent httpComponent;
 
-   public MagentoHttpComponent(HttpComponent httpComponent){
+   protected MagentoHttpComponent() {
+   }
+
+   protected MagentoHttpComponent(HttpComponent httpComponent){
       this.httpComponent = httpComponent;
    }
 
@@ -30,38 +38,22 @@ public abstract class MagentoHttpComponent {
    }
 
    public String postSecure(String url, String body){
-      Map<String, String> headers = new HashMap<>();
-      if(!StringUtils.isEmpty(this.token())) {
-         headers.put("Authorization", "Bearer " + this.token());
-      }
-      headers.put("Content-Type", "application/json");
+      Map<String, String> headers = getHeaders();
       return httpComponent.post(url, body, headers);
    }
 
    public String putSecure(String url, String body) {
-      Map<String, String> headers = new HashMap<>();
-      if(!StringUtils.isEmpty(this.token())) {
-         headers.put("Authorization", "Bearer " + this.token());
-      }
-      headers.put("Content-Type", "application/json");
+      Map<String, String> headers = getHeaders();
       return httpComponent.put(url, body, headers);
    }
 
    public String deleteSecure(String url) {
-      Map<String, String> headers = new HashMap<>();
-      if(!StringUtils.isEmpty(this.token())) {
-         headers.put("Authorization", "Bearer " + this.token());
-      }
-      headers.put("Content-Type", "application/json");
+      Map<String, String> headers = getHeaders();
       return httpComponent.delete(url, headers);
    }
 
    public String getSecured(String uri) {
-      Map<String, String> headers = new HashMap<>();
-      if(!StringUtils.isEmpty(this.token())) {
-         headers.put("Authorization", "Bearer " + this.token());
-      }
-      headers.put("Content-Type", "application/json");
+      Map<String, String> headers = getHeaders();
       return httpComponent.get(uri, headers);
    }
 
@@ -91,4 +83,14 @@ public abstract class MagentoHttpComponent {
       }
       return true;
    }
+
+   private Map<String, String> getHeaders() {
+      Map<String, String> headers = new HashMap<>();
+      if (!StringUtils.isEmpty(this.token())) {
+         headers.put(AUTHORISATION, BEARER + this.token());
+      }
+      headers.put(CONTENT_TYPE, APPLICATION_JSON);
+      return headers;
+   }
+
 }

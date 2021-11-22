@@ -2,6 +2,7 @@ package com.github.chen0040.magento.services;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,8 @@ import com.github.chen0040.magento.models.CategoryProduct;
 
 
 public class MagentoCategoryManager extends MagentoHttpComponent {
-   private MagentoClient client;
-   private static final String relativePath4Categories = "rest/V1/categories";
+   private final MagentoClient client;
+   private static final String RELATIVE_PATH_4_CATEGORIES = "rest/V1/categories";
 
    public MagentoCategoryManager(MagentoClient client) {
       super(client.getHttpComponent());
@@ -23,7 +24,7 @@ public class MagentoCategoryManager extends MagentoHttpComponent {
    }
 
    public boolean deleteCategory(long categoryId) {
-      String url = baseUri() + "/" + relativePath4Categories + "/" + categoryId;
+      String url = baseUri() + "/" + RELATIVE_PATH_4_CATEGORIES + "/" + categoryId;
       String json = deleteSecure(url);
       if(!validate(json)){
          return false;
@@ -32,21 +33,8 @@ public class MagentoCategoryManager extends MagentoHttpComponent {
    }
 
    public long addCategory(Category category) {
-      Map<String, Object> cat = new HashMap<>();
-      cat.put("id", category.getId());
-      cat.put("parent_id", category.getParent_id());
-     cat.put("name", category.getName());
-     cat.put("is_active", category.is_active());
-     cat.put("position", category.getPosition());
-     cat.put("level", category.getLevel());
-     cat.put("children", "string");
-      cat.put("include_in_menu", true);
-      cat.put("available_sort_by", new ArrayList<>());
-      cat.put("extension_attributes", new ArrayList<>());
-      cat.put("custom_attributes", new ArrayList<>());
-      Map<String, Object> req = new HashMap<>();
-      req.put("category", cat);
-      String url = baseUri() + "/" + relativePath4Categories;
+      Map<String, Object> req = createCategory(category);
+      String url = baseUri() + "/" + RELATIVE_PATH_4_CATEGORIES;
 
       String body = JSON.toJSONString(req, SerializerFeature.BrowserCompatible);
       String json = postSecure(url, body);
@@ -57,22 +45,10 @@ public class MagentoCategoryManager extends MagentoHttpComponent {
       return Long.parseLong(json);
    }
 
+
    public boolean updateCategory(Category category) {
-      Map<String, Object> cat = new HashMap<>();
-      cat.put("id", category.getId());
-      cat.put("parent_id", category.getParent_id());
-      cat.put("name", category.getName());
-      cat.put("is_active", category.is_active());
-      cat.put("position", category.getPosition());
-      cat.put("level", category.getLevel());
-      cat.put("children", "string");
-      cat.put("include_in_menu", true);
-      cat.put("available_sort_by", new ArrayList<>());
-      cat.put("extension_attributes", new ArrayList<>());
-      cat.put("custom_attributes", new ArrayList<>());
-      Map<String, Object> req = new HashMap<>();
-      req.put("category", cat);
-      String url = baseUri() + "/" + relativePath4Categories + "/" + category.getId();
+      Map<String, Object> req = createCategory(category);
+      String url = baseUri() + "/" + RELATIVE_PATH_4_CATEGORIES + "/" + category.getId();
 
       String body = JSON.toJSONString(req, SerializerFeature.BrowserCompatible);
       String json = postSecure(url, body);
@@ -86,7 +62,7 @@ public class MagentoCategoryManager extends MagentoHttpComponent {
    public Category all() {
       int pageIndex = 0;
       int pageSize = 1000;
-      String uri = baseUri() + "/" + relativePath4Categories
+      String uri = baseUri() + "/" + RELATIVE_PATH_4_CATEGORIES
               + "?searchCriteria[currentPage]=" + pageIndex
               + "&searchCriteria[pageSize]=" + pageSize;
       String json = getSecured(uri);
@@ -98,12 +74,12 @@ public class MagentoCategoryManager extends MagentoHttpComponent {
    }
 
    public Category getCategoryByIdClean(long id) {
-      String uri = baseUri() + "/" + relativePath4Categories + "/" + id;
+      String uri = baseUri() + "/" + RELATIVE_PATH_4_CATEGORIES + "/" + id;
       return getCategoryByUrl(uri);
    }
 
    public Category getRootCategoryById(long id) {
-      String uri = baseUri() + "/" + relativePath4Categories + "?rootCategoryId=" + id;
+      String uri = baseUri() + "/" + RELATIVE_PATH_4_CATEGORIES + "?rootCategoryId=" + id;
       return getCategoryByUrl(uri);
    }
 
@@ -134,18 +110,18 @@ public class MagentoCategoryManager extends MagentoHttpComponent {
    }
 
    public List<CategoryProduct> getProductsInCategory(long id) {
-      String uri = baseUri() + "/" + relativePath4Categories + "/" + id + "/products";
+      String uri = baseUri() + "/" + RELATIVE_PATH_4_CATEGORIES + "/" + id + "/products";
       String json = getSecured(uri);
 
       if(!validate(json)) {
-         return null;
+         return Collections.emptyList();
       }
 
       return JSON.parseArray(json, CategoryProduct.class);
    }
 
    public boolean addProductToCategory(long categoryId, String productSku, int position) {
-      String uri = baseUri() + "/" + relativePath4Categories + "/" + categoryId + "/products";
+      String uri = baseUri() + "/" + RELATIVE_PATH_4_CATEGORIES + "/" + categoryId + "/products";
       Map<String, Object> req = new HashMap<>();
       Map<String, Object> detail = new HashMap<>();
       detail.put("sku", productSku);
@@ -171,9 +147,28 @@ public class MagentoCategoryManager extends MagentoHttpComponent {
 
 
    public boolean removeProductFromCategory(long categoryId, String productSku) {
-      String uri = baseUri() + "/" + relativePath4Categories + "/" + categoryId + "/products/" + productSku;
+      String uri = baseUri() + "/" + RELATIVE_PATH_4_CATEGORIES + "/" + categoryId + "/products/" + productSku;
 
       String json = deleteSecure(uri);
       return json.equals("true");
    }
+
+   private Map<String, Object> createCategory(Category category) {
+      Map<String, Object> cat = new HashMap<>();
+      cat.put("id", category.getId());
+      cat.put("parent_id", category.getParent_id());
+      cat.put("name", category.getName());
+      cat.put("is_active", category.is_active());
+      cat.put("position", category.getPosition());
+      cat.put("level", category.getLevel());
+      cat.put("children", "string");
+      cat.put("include_in_menu", true);
+      cat.put("available_sort_by", new ArrayList<>());
+      cat.put("extension_attributes", new ArrayList<>());
+      cat.put("custom_attributes", new ArrayList<>());
+      Map<String, Object> req = new HashMap<>();
+      req.put("category", cat);
+      return req;
+   }
+
 }

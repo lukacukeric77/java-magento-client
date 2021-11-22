@@ -11,31 +11,32 @@ import java.util.Map;
 
 
 public class MagentoInventoryStockManager extends MagentoHttpComponent {
-   private static final String relativePath = "rest/V1/stockItems";
-   private MagentoClient client;
+   private static final String RELATIVE_PATH = "rest/V1/stockItems";
+   private final MagentoClient client;
 
    public MagentoInventoryStockManager(MagentoClient client) {
       super(client.getHttpComponent());
       this.client = client;
    }
 
-   @Override public String token() {
+   @Override
+   public String token() {
       return client.token();
    }
 
 
-   @Override public String baseUri() {
+   @Override
+   public String baseUri() {
       return client.baseUri();
    }
 
    public StockItems getStockItems(String productSku) {
-      String url = baseUri() + "/" + relativePath + "/" + productSku;
+      String url = baseUri() + "/" + RELATIVE_PATH + "/" + productSku;
       String json = getSecured(url);
       if(!validate(json)){
          return null;
       }
-      StockItems result = JSON.parseObject(json, StockItems.class);
-      return result;
+       return JSON.parseObject(json, StockItems.class);
    }
 
    public String saveStockItems(String productSku, StockItems si){

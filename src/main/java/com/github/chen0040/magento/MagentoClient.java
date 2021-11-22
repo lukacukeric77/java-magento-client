@@ -33,13 +33,9 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    private static final String relativePath4LoginAsClient = "rest/V1/integration/customer/token";
    private static final String relativePath4LoginAsAdmin = "rest/V1/integration/admin/token";
 
-
    private String token = null;
-
    private String baseUri = "";
-
    private boolean admin = false;
-
    private boolean authenticated = false;
 
    private MagentoProductManager products;
@@ -74,7 +70,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    }
 
    public Account getMyAccount() {
-      if(admin){
+      if (admin) {
          log.warn("my account access api is not supported for admin rest call");
          return null;
       }
@@ -83,7 +79,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
       String uri = this.baseUri + "/rest/V1/customers/me";
       String json = getSecured(uri);
 
-      if(!validate(json)) {
+      if (!validate(json)) {
          return null;
       }
 
@@ -91,15 +87,14 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    }
 
    public Map<String, Object> getAccountById(long id) {
-      if(!admin){
+      if (!admin) {
          log.warn("other account access api is not supported for client rest call");
          return new HashMap<>();
       }
 
       String uri = this.baseUri + "/rest/V1/customers/" + id;
       String json = getSecured(uri);
-      Map<String, Object> data = JSON.parseObject(json, new TypeReference<Map<String, Object>>(){}.getType());
-      return data;
+      return JSON.parseObject(json, new TypeReference<Map<String, Object>>(){}.getType());
    }
 
    public String loginAsClient(String username, String password) {
@@ -159,12 +154,14 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    public MagentoMyCartManager myCart() { return myCart; }
 
 
-   @Override public String token() {
+   @Override
+   public String token() {
       return this.token;
    }
 
 
-   @Override public String baseUri() {
+   @Override
+   public String baseUri() {
       return this.baseUri;
    }
 }

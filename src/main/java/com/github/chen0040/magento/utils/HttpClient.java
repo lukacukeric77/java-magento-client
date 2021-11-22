@@ -33,23 +33,25 @@ public class HttpClient implements Serializable {
 
       int timeout = 60;
       RequestConfig config = RequestConfig.custom()
-              .setSocketTimeout(timeout * 1000)
-              .setConnectionRequestTimeout(timeout * 1000)
-              .setConnectTimeout(timeout * 1000).build();
+          .setSocketTimeout(timeout * 1000)
+          .setConnectionRequestTimeout(timeout * 1000)
+          .setConnectTimeout(timeout * 1000)
+          .build();
 
-
-      return HttpClients.custom().setDefaultRequestConfig(config).build(); //builder.build();
+      return HttpClients.custom()
+          .setDefaultRequestConfig(config)
+          .build();
 
    }
 
-
+   // why is this here? it is not used?
    public static void formPost(String uri, Map<String, String> parameters) throws IOException {
 
       log.info("form post to {}", uri);
-
       HttpPost httpPost = new HttpPost(uri);
       CloseableHttpClient client = buildClient();
       List<NameValuePair> params = new ArrayList<>();
+
       for(Map.Entry<String, String> entry : parameters.entrySet()) {
          params.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
       }
@@ -59,8 +61,6 @@ public class HttpClient implements Serializable {
       int statusCode = response.getStatusLine().getStatusCode();
 
       log.info("status code: {}", statusCode);
-
-
 
    }
 
