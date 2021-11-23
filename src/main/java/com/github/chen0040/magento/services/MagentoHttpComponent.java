@@ -26,7 +26,7 @@ public abstract class MagentoHttpComponent {
 
    protected HttpComponent httpComponent;
 
-   protected MagentoHttpComponent() {
+   private MagentoHttpComponent() {
    }
 
    protected MagentoHttpComponent(HttpComponent httpComponent){

@@ -11,8 +11,6 @@ import org.testng.annotations.Test;
 @Slf4j
 public class ProductJsonUnitTest {
 
-
-
     @Test
     public void testJsonDeserialization() {
         String json = readStream(ProductJsonUnitTest.class.getClassLoader().getResourceAsStream("product.json"));

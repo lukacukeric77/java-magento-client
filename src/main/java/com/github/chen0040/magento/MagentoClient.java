@@ -21,17 +21,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-
-/**
- * Created by xschen on 12/6/2017.
- */
 @Getter
 @Setter
 @Slf4j
 public class MagentoClient extends MagentoHttpComponent implements Serializable {
    private static final long serialVersionUID = 3001998767951271632L;
-   private static final String relativePath4LoginAsClient = "rest/V1/integration/customer/token";
-   private static final String relativePath4LoginAsAdmin = "rest/V1/integration/admin/token";
+   private static final String RELATIVE_PATH_4_LOGIN_AS_CLIENT = "rest/V1/integration/customer/token";
+   private static final String RELATIVE_PATH_4_LOGIN_AS_ADMIN = "rest/V1/integration/admin/token";
 
    private String token = null;
    private String baseUri = "";
@@ -46,6 +42,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    private MagentoMyCartManager myCart;
 
    public MagentoClient(String baseUri, HttpComponent httpComponent) {
+
       super(httpComponent);
 
       this.baseUri = baseUri;
@@ -58,6 +55,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    }
 
    public MagentoClient(String baseUri) {
+
       super(new BasicHttpComponent());
 
       this.baseUri = baseUri;
@@ -98,7 +96,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    }
 
    public String loginAsClient(String username, String password) {
-      String uri = baseUri + "/" + relativePath4LoginAsClient;
+      String uri = baseUri + "/" + RELATIVE_PATH_4_LOGIN_AS_CLIENT;
       Map<String, String> data = new HashMap<>();
       data.put("username", username);
       data.put("password", password);
@@ -121,13 +119,15 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    }
 
    public String loginAsAdmin(String username, String password) {
-      String uri = baseUri + "/" + relativePath4LoginAsAdmin;
+      String uri = baseUri + "/" + RELATIVE_PATH_4_LOGIN_AS_ADMIN;
       Map<String, String> data = new HashMap<>();
       data.put("username", username);
       data.put("password", password);
       token = StringUtils.stripQuotation(httpComponent.jsonPost(uri, data));
       log.info("loginAsClient returns: {}", token);
-      if(token.contains("You did not sign in correctly or your account is temporarily disabled") || token.contains("Invalid login or password")) {
+
+      if(token.contains("You did not sign in correctly or your account is temporarily disabled")
+          || token.contains("Invalid login or password")) {
          this.token = "";
          return token;
       }
