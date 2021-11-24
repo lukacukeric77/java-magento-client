@@ -31,7 +31,8 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
 
    private String token = null;
    private String baseUri = "";
-   private boolean admin = false;
+
+   private boolean adminLoggedIn = false;
    private boolean authenticated = false;
 
    private MagentoProductManager products;
@@ -68,7 +69,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    }
 
    public Account getMyAccount() {
-      if (admin) {
+      if (adminLoggedIn) {
          log.warn("my account access api is not supported for admin rest call");
          return null;
       }
@@ -85,7 +86,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    }
 
    public Map<String, Object> getAccountById(long id) {
-      if (!admin) {
+      if (!adminLoggedIn) {
          log.warn("other account access api is not supported for client rest call");
          return new HashMap<>();
       }
@@ -114,8 +115,8 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    public void logout() {
       //String uri = baseUri + "/rest/V1/integration/customer/revoke";
       authenticated = false;
+      adminLoggedIn = false;
       token = null;
-
    }
 
    public String loginAsAdmin(String username, String password) {
@@ -124,7 +125,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
       data.put("username", username);
       data.put("password", password);
       token = StringUtils.stripQuotation(httpComponent.jsonPost(uri, data));
-      log.info("loginAsClient returns: {}", token);
+      log.info("loginAsClient returns, token check: {}", token);
 
       if(token.contains("You did not sign in correctly or your account is temporarily disabled")
           || token.contains("Invalid login or password")) {
@@ -132,6 +133,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
          return token;
       }
       authenticated = true;
+      adminLoggedIn = true;
       return token;
    }
 
@@ -164,4 +166,5 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
    public String baseUri() {
       return this.baseUri;
    }
+
 }

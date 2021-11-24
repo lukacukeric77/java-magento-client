@@ -115,7 +115,7 @@ public class MagentoMyCartManager extends MagentoHttpComponent {
    }
 
    public boolean transferGuestCartToMyCart(String guestCartId) {
-      if(customerId == -1L) {
+      if (customerId == -1L) {
          Account account = client.getMyAccount();
          customerId = account.getId();
          storeId = account.getStore_id();

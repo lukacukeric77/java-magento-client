@@ -14,7 +14,7 @@ public class MagentoClientGuestCartUnitTest {
 
    @Test
    public void test_newCart(){
-      MagentoClient client = new MagentoClient(Mediator.url);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
       String cartId = client.guestCart().newCart();
       Cart cart = client.guestCart().getCart(cartId);
       CartTotal cartTotal = client.getGuestCart().getCartTotal(cartId);
@@ -25,7 +25,7 @@ public class MagentoClientGuestCartUnitTest {
 
    @Test
    public void test_addItemToCart(){
-      MagentoClient client = new MagentoClient(Mediator.url);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
       String cartId = client.guestCart().newCart();
 
       CartItem item = new CartItem();
@@ -45,7 +45,7 @@ public class MagentoClientGuestCartUnitTest {
 
    @Test
    public void test_updateItemInCart(){
-      MagentoClient client = new MagentoClient(Mediator.url);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
       String cartId = client.guestCart().newCart();
 
       CartItem item = new CartItem();
@@ -67,7 +67,7 @@ public class MagentoClientGuestCartUnitTest {
 
    @Test
    public void test_deleteItemInCart(){
-      MagentoClient client = new MagentoClient(Mediator.url);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
       String cartId = client.guestCart().newCart();
 
       CartItem item = new CartItem();

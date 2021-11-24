@@ -15,16 +15,25 @@ public class MagentoClientProductUnitTest {
 
    @Test
    public void test_login_client(){
-      MagentoClient client = new MagentoClient(Mediator.url);
-      String token = client.loginAsClient(Mediator.customerUsername, Mediator.customerPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsClient(Mediator.CUSTOMER_USERNAME, Mediator.CUSTOMER_PASSWORD);
+      assert client.isAuthenticated();
       log.info("my account:\r\n{}", JSON.toJSONString(client.getMyAccount(), SerializerFeature.PrettyFormat));
-      log.info("product types:\r\n{}", JSON.toJSONString(client.products().listProductTypes(), SerializerFeature.PrettyFormat));
+   }
+
+   @Test
+   public void test_login_admin(){
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
+      assert client.isAuthenticated();
+      assert client.isAdminLoggedIn();
+      log.info("admin account:\r\n{}", JSON.toJSONString(client.getMyAccount()));
    }
 
    @Test
    public void test_list_product(){
-      MagentoClient client = new MagentoClient(Mediator.url);
-      String token = client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      String token = client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
       log.info("account with id = 1: {}", client.getAccountById(1));
       log.info("product types: \r\n{}", JSON.toJSONString(client.products().listProductTypes(), SerializerFeature.PrettyFormat));
 
@@ -37,8 +46,8 @@ public class MagentoClientProductUnitTest {
 
    @Test
    public void test_get_product(){
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
 
       Product p1 = client.products().getProductBySku("B201-SKU");
       log.info("product:\r\n{}", JSON.toJSONString(p1, SerializerFeature.PrettyFormat));
@@ -48,8 +57,8 @@ public class MagentoClientProductUnitTest {
 
    @Test
    public void test_delete_product(){
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
 
       String sku = "B203-SKU";
       log.info("product exists ? {}", client.products().hasProduct(sku));
@@ -59,8 +68,8 @@ public class MagentoClientProductUnitTest {
 
    @Test
    public void test_list_product_attribute_types() {
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
 
       List<MagentoAttributeType> attributeTypes = client.products().getProductAttributeTypes();
       log.info("product attribute types:\r\n{}", JSON.toJSONString(attributeTypes, SerializerFeature.PrettyFormat));
@@ -68,8 +77,8 @@ public class MagentoClientProductUnitTest {
 
    @Test
    public void test_list_product_attributes() {
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
 
       ProductAttributePage page = client.products().getProductAttributes(0,10);
       log.info("product attribute types:\r\n{}", JSON.toJSONString(page, SerializerFeature.PrettyFormat));
@@ -77,8 +86,8 @@ public class MagentoClientProductUnitTest {
 
    @Test
    public void test_add_product() {
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
 
       String sku = "B203-SKU";
       if(client.products().hasProduct(sku)) {

@@ -14,8 +14,8 @@ public class MagentoClientMyCartUnitTest {
 
    @Test
    public void test_newCart(){
-      MagentoClient client = new MagentoClient(Mediator.url);
-      String token = client.loginAsClient(Mediator.customerUsername, Mediator.customerPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      String token = client.loginAsClient(Mediator.CUSTOMER_USERNAME, Mediator.CUSTOMER_PASSWORD);
       String cartId = client.myCart().newQuote();
       Cart cart = client.myCart().getCart();
       CartTotal cartTotal = client.myCart().getCartTotal();
@@ -27,8 +27,8 @@ public class MagentoClientMyCartUnitTest {
 
    @Test
    public void test_addItemToCart(){
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsClient(Mediator.customerUsername, Mediator.customerPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsClient(Mediator.CUSTOMER_USERNAME, Mediator.CUSTOMER_PASSWORD);
       String quoteId = client.myCart().newQuote();
 
       CartItem item = new CartItem();
@@ -49,8 +49,8 @@ public class MagentoClientMyCartUnitTest {
 
    @Test
    public void test_updateItemInCart(){
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsClient(Mediator.customerUsername, Mediator.customerPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsClient(Mediator.CUSTOMER_USERNAME, Mediator.CUSTOMER_PASSWORD);
       String quoteId = client.myCart().newQuote();
 
       CartItem item = new CartItem();
@@ -71,8 +71,8 @@ public class MagentoClientMyCartUnitTest {
 
    @Test
    public void test_deleteItemInCart(){
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsClient(Mediator.customerUsername, Mediator.customerPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsClient(Mediator.CUSTOMER_USERNAME, Mediator.CUSTOMER_PASSWORD);
       String quoteId = client.myCart().newQuote();
 
       CartItem item = new CartItem();
@@ -93,7 +93,7 @@ public class MagentoClientMyCartUnitTest {
 
    @Test
    public void test_transferGuestCartToMyCart(){
-      MagentoClient client = new MagentoClient(Mediator.url);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
 
       String cartId = client.guestCart().newCart();
 
@@ -103,7 +103,7 @@ public class MagentoClientMyCartUnitTest {
 
       item = client.guestCart().addItemToCart(cartId, item);
 
-      client.loginAsClient(Mediator.customerUsername, Mediator.customerPassword);
+      client.loginAsClient(Mediator.CUSTOMER_USERNAME, Mediator.CUSTOMER_PASSWORD);
       boolean result = client.myCart().transferGuestCartToMyCart(cartId);
 
       Cart cart = client.myCart().getCart();

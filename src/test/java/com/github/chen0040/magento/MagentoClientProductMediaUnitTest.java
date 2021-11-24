@@ -15,16 +15,16 @@ public class MagentoClientProductMediaUnitTest {
    @Test
    public void test_get_product_media_list() {
       String productSku = "B202-SKU";
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
       log.info("media list: \r\n{}", JSON.toJSONString(client.media().getProductMediaList(productSku), SerializerFeature.PrettyFormat));
    }
 
    @Test
    public void test_get_product_media_urls() {
       String productSku = "B202-SKU";
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
       log.info("media absolute urls: \r\n{}", JSON.toJSONString(client.media().getProductMediaAbsoluteUrls(productSku), SerializerFeature.PrettyFormat));
       log.info("media relative urls: \r\n{}", JSON.toJSONString(client.media().getProductMediaRelativeUrls(productSku), SerializerFeature.PrettyFormat));
    }
@@ -32,8 +32,8 @@ public class MagentoClientProductMediaUnitTest {
    @Test
    public void test_get_product_media_url() {
       String productSku = "B202-SKU";
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
       long entryId = 1L;
       log.info("media absoluate url: \r\n{}", JSON.toJSONString(client.media().getProductMediaAbsoluteUrl(productSku, entryId), SerializerFeature.PrettyFormat));
       log.info("media relative url: \r\n{}", JSON.toJSONString(client.media().getProductMediaRelativeUrl(productSku, entryId), SerializerFeature.PrettyFormat));
@@ -42,8 +42,8 @@ public class MagentoClientProductMediaUnitTest {
    @Test
    public void test_get_product_media() {
       String productSku = "B202-SKU";
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
       long entryId = 1L;
       log.info("media: \r\n{}", JSON.toJSONString(client.media().getProductMedia(productSku, entryId), SerializerFeature.PrettyFormat));
    }
@@ -51,8 +51,8 @@ public class MagentoClientProductMediaUnitTest {
    @Test
    public void test_delete_product_media() {
       String productSku = "B202-SKU";
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
       long entryId = 2L;
       log.info("media deleted: \r\n{}", JSON.toJSONString(client.media().deleteProductMedia(productSku, entryId), SerializerFeature.PrettyFormat));
    }
@@ -61,8 +61,8 @@ public class MagentoClientProductMediaUnitTest {
    public void test_upload_image() throws IOException {
       String productSku = "B202-SKU";
 
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
 
       String filename = "/m/b/mb01-blue-0.png";
       int position = 1;
@@ -85,8 +85,8 @@ public class MagentoClientProductMediaUnitTest {
    public void test_update_image() throws IOException {
       String productSku = "B202-SKU";
 
-      MagentoClient client = new MagentoClient(Mediator.url);
-      client.loginAsAdmin(Mediator.adminUsername, Mediator.adminPassword);
+      MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
+      client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
 
       String filename = "/m/b/mb01-blue-0.png";
       int position = 1;
