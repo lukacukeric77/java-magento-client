@@ -65,7 +65,7 @@ public class MagentoCategoryManager extends MagentoHttpComponent {
       String uri = baseUri() + "/" + RELATIVE_PATH_4_CATEGORIES
               + "?searchCriteria[currentPage]=" + pageIndex
               + "&searchCriteria[pageSize]=" + pageSize;
-      String json = getSecured(uri);
+      String json = getSecure(uri);
       if(!validate(json)){
          return null;
       }
@@ -84,7 +84,7 @@ public class MagentoCategoryManager extends MagentoHttpComponent {
    }
 
    private Category getCategoryByUrl(String uri) {
-      String json = getSecured(uri);
+      String json = getSecure(uri);
       if (!validate(json)) {
         return null;
       }
@@ -111,7 +111,7 @@ public class MagentoCategoryManager extends MagentoHttpComponent {
 
    public List<CategoryProduct> getProductsInCategory(long id) {
       String uri = baseUri() + "/" + RELATIVE_PATH_4_CATEGORIES + "/" + id + "/products";
-      String json = getSecured(uri);
+      String json = getSecure(uri);
 
       if(!validate(json)) {
          return Collections.emptyList();

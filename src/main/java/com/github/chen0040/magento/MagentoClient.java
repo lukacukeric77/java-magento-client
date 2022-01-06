@@ -76,7 +76,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
 
       //"http://magento.ll/index.php/rest/V1/customers/me" -H "Authorization: Bearer asdf3hjklp5iuytre"
       String uri = this.baseUri + "/rest/V1/customers/me";
-      String json = getSecured(uri);
+      String json = getSecure(uri);
 
       if (!validate(json)) {
          return null;
@@ -92,7 +92,7 @@ public class MagentoClient extends MagentoHttpComponent implements Serializable 
       }
 
       String uri = this.baseUri + "/rest/V1/customers/" + id;
-      String json = getSecured(uri);
+      String json = getSecure(uri);
       return JSON.parseObject(json, new TypeReference<Map<String, Object>>(){}.getType());
    }
 

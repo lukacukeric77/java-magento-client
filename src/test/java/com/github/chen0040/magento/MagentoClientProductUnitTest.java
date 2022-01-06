@@ -27,7 +27,6 @@ public class MagentoClientProductUnitTest {
       client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
       assert client.isAuthenticated();
       assert client.isAdminLoggedIn();
-      log.info("admin account:\r\n{}", JSON.toJSONString(client.getMyAccount()));
    }
 
    @Test

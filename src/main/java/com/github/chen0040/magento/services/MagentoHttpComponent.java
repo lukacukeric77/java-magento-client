@@ -52,7 +52,7 @@ public abstract class MagentoHttpComponent {
       return httpComponent.delete(url, headers);
    }
 
-   public String getSecured(String uri) {
+   public String getSecure(String uri) {
       Map<String, String> headers = getHeaders();
       return httpComponent.get(uri, headers);
    }

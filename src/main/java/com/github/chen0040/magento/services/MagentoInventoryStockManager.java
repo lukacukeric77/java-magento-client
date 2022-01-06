@@ -8,10 +8,11 @@ import com.github.chen0040.magento.models.StockItems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 public class MagentoInventoryStockManager extends MagentoHttpComponent {
-   private static final String RELATIVE_PATH = "rest/V1/stockItems";
+   private static final String RELATIVE_PATH = "rest/default/V1/stockItems";
    private final MagentoClient client;
 
    public MagentoInventoryStockManager(MagentoClient client) {
@@ -31,8 +32,9 @@ public class MagentoInventoryStockManager extends MagentoHttpComponent {
    }
 
    public StockItems getStockItems(String productSku) {
-      String url = baseUri() + "/" + RELATIVE_PATH + "/" + productSku;
-      String json = getSecured(url);
+      String url = baseUri() + RELATIVE_PATH + "/" + productSku;
+      log.info("URL to send: {}", url);
+      String json = getSecure(url);
       if(!validate(json)){
          return null;
       }

@@ -16,15 +16,18 @@ public class MagentoClientInventoryUnitTest {
 
       MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
       client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);
-      log.info("stock item: {}", JSON.toJSONString(client.inventory().getStockItems(productSku), SerializerFeature.PrettyFormat));
+//      log.info("stock item, product dynamic: {}", JSON.toJSONString(client.inventory().getStockItems(productSku), SerializerFeature.PrettyFormat));
+//
+//      productSku = "B203-SKU";
+//      log.info("stock item, B203-SKU: {}", JSON.toJSONString(client.inventory().getStockItems(productSku), SerializerFeature.PrettyFormat));
 
-      productSku = "B203-SKU";
-      log.info("stock item: {}", JSON.toJSONString(client.inventory().getStockItems(productSku), SerializerFeature.PrettyFormat));
+      productSku = "WJ02";
+      log.info("Josie Yoga Jacket: {}", JSON.toJSONString(client.inventory().getStockItems(productSku), SerializerFeature.PrettyFormat));
    }
 
    @Test
    public void test_saveStockItems(){
-      String productSku = "product_dynamic_571";
+      String productSku;
 
       MagentoClient client = new MagentoClient(Mediator.UBERTHEME_URL);
       client.loginAsAdmin(Mediator.ADMIN_USERNAME, Mediator.ADMIN_PASSWORD);

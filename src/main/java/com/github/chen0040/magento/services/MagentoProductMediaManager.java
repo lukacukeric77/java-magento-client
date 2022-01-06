@@ -138,7 +138,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
    public List<ProductMedia> getProductMediaList(String sku) {
       String uri = baseUri() + "/rest/V1/products/" + escape(sku) + "/media";
 
-      String json = getSecured(uri);
+      String json = getSecure(uri);
 
       if (!validate(json)) {
          return Collections.emptyList();
@@ -152,7 +152,7 @@ public class MagentoProductMediaManager extends MagentoHttpComponent {
 
       String uri = baseUri() + "/rest/V1/products/" + escape(sku) + "/media/" + entryId;
 
-      String json = getSecured(uri);
+      String json = getSecure(uri);
 
       if (!validate(json)) {
          return null;

@@ -46,7 +46,7 @@ public class MagentoGuestCartManager extends MagentoHttpComponent {
 
    public Cart getCart(String cartId) {
 
-      String json = getSecured(baseUri() + "/" + RELATIVE_PATH_GUEST_CARTS + "/" + cartId);
+      String json = getSecure(baseUri() + "/" + RELATIVE_PATH_GUEST_CARTS + "/" + cartId);
 
       if(!validate(json)){
          return null;
@@ -57,7 +57,7 @@ public class MagentoGuestCartManager extends MagentoHttpComponent {
    }
 
    public CartTotal getCartTotal(String cartId) {
-      String json = getSecured(baseUri() + "/" + RELATIVE_PATH_GUEST_CARTS + "/" + cartId + "/totals");
+      String json = getSecure(baseUri() + "/" + RELATIVE_PATH_GUEST_CARTS + "/" + cartId + "/totals");
 
       if(!validate(json)){
          return null;

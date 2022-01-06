@@ -45,7 +45,7 @@ public class MagentoProductManager extends MagentoHttpComponent {
       String uri = baseUri() + "/" + RELATIVE_PATH_4_PRODUCTS
               + SEARCH_CRITERIA_CURRENT_PAGE + pageIndex
               + SEARCH_CRITERIA_PAGE_SIZE + pageSize;
-      String json = getSecured(uri);
+      String json = getSecure(uri);
       if(!validate(json)){
          return null;
       }
@@ -56,7 +56,7 @@ public class MagentoProductManager extends MagentoHttpComponent {
 
    public Product getProductBySku(String sku) {
       String uri = baseUri() + "/" + RELATIVE_PATH_4_PRODUCTS + "/" + escape(sku);
-      String json = getSecured(uri);
+      String json = getSecure(uri);
 
       if(!validate(json)){
          return null;
@@ -68,7 +68,7 @@ public class MagentoProductManager extends MagentoHttpComponent {
    public List<MagentoAttributeType> getProductAttributeTypes() {
       String uri = baseUri() + "/rest/V1/products/attributes/types";
 
-      String json = getSecured(uri);
+      String json = getSecure(uri);
 
       if(!validate(json)) {
          return Collections.emptyList();
@@ -81,7 +81,7 @@ public class MagentoProductManager extends MagentoHttpComponent {
               + SEARCH_CRITERIA_CURRENT_PAGE + pageIndex
               + SEARCH_CRITERIA_PAGE_SIZE + pageSize;
 
-      String json = getSecured(uri);
+      String json = getSecure(uri);
 
       if(!validate(json)) {
          return null;
@@ -130,14 +130,14 @@ public class MagentoProductManager extends MagentoHttpComponent {
               + "?searchCriteria[filter_groups][0][filters][0][field]=category_gear"
               + "&searchCriteria[filter_groups][0][filters][0][value]=86"
               + "&searchCriteria[filter_groups][0][filters][0][condition_type]=finset";
-      return getSecured(uri);
+      return getSecure(uri);
    }
 
    public List<MagentoType> listProductTypes() {
       String uri = baseUri() + RELATIVE_PATH_4_PRODUCT_TYPES
           + SEARCH_CRITERIA_CURRENT_PAGE + "0"
           + SEARCH_CRITERIA_PAGE_SIZE + "1000";
-      String json = getSecured(uri);
+      String json = getSecure(uri);
       return JSON.parseArray(json, MagentoType.class);
    }
 
@@ -145,7 +145,7 @@ public class MagentoProductManager extends MagentoHttpComponent {
       String uri = baseUri() + RELATIVE_PATH_4_PRODUCT_TYPES
               + SEARCH_CRITERIA_CURRENT_PAGE + page
               + SEARCH_CRITERIA_PAGE_SIZE + pageSize;
-      String json = getSecured(uri);
+      String json = getSecure(uri);
       return JSON.parseArray(json, MagentoType.class);
    }
 
